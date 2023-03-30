@@ -2,6 +2,9 @@
 <ui version="4.0">
  <class>CurrentDay</class>
  <widget class="QMainWindow" name="CurrentDay">
+  <property name="windowModality">
+   <enum>Qt::WindowModal</enum>
+  </property>
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -57,7 +60,7 @@
     </attribute>
     <column>
      <property name="text">
-      <string>Заметка</string>
+      <string>Событие</string>
      </property>
     </column>
     <column>

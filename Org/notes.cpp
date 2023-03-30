@@ -37,6 +37,21 @@ Notes::~Notes()
     delete ui;
 }
 
+void Notes::closeEvent(QCloseEvent *event)
+{
+    if(ui->pushButton->isEnabled())
+    {
+        QMessageBox::StandardButton b =
+                QMessageBox::question(this, "Выход", "Есть несохраненные изменения\nВы уверены что хотите выйти?");
+        if(b == QMessageBox::StandardButton::Yes)
+            event->accept();
+        else
+            event->ignore();
+    }
+    else
+        event->accept();
+}
+
 void Notes::clickSaveButton()
 {
     NotesClass n(ui->lineEdit->text().toStdString(), ui->plainTextEdit->toPlainText().toStdString(),
@@ -98,15 +113,19 @@ void Notes::clickSaveButton()
 
 void Notes::clickDelButton()
 {
-    auto it = std::find_if(currNotes->begin(), currNotes->end(), [this](NotesClass a)
+    QMessageBox::StandardButton b = QMessageBox::question(this, "Удаление", "Вы уверены что хотите удалить заметку?\nВосстановление невозможно");
+    if(b == QMessageBox::StandardButton::Yes)
     {
-        return (currTime[0] == a.start && currTime[1] == a.stop);
-    });
-    currNotes->erase(it);
-    ui->pushButton_2->setEnabled(false);
-    isNew = true;
-    emit dataUp();
-    ui->pushButton->setEnabled(true);
+        auto it = std::find_if(currNotes->begin(), currNotes->end(), [this](NotesClass a)
+        {
+            return (currTime[0] == a.start && currTime[1] == a.stop);
+        });
+        currNotes->erase(it);
+        ui->pushButton_2->setEnabled(false);
+        emit dataUp();
+        ui->pushButton->setEnabled(false);
+        this->close();
+    }
 }
 
 void Notes::changeData()

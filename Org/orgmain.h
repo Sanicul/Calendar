@@ -20,6 +20,7 @@ public:
 private slots:
     void clickedDay(QDate date);
     void clickDeleteButton();
+    void repaintDays();
 
 private:
     Ui::OrgMain *ui;

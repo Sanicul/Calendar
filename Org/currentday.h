@@ -13,8 +13,14 @@ class CurrentDay : public QMainWindow
     Q_OBJECT
 
 public:
-    explicit CurrentDay(std::vector<NotesClass> *n, QWidget *parent = nullptr);
+    explicit CurrentDay(std::map<std::string, std::vector<NotesClass>> *d, std::string k, QWidget *parent = nullptr);
     ~CurrentDay();
+
+signals:
+    void dataChanged();
+
+protected:
+    void closeEvent(QCloseEvent *event);
 
 private slots:
     void clickAddButton();
@@ -23,8 +29,9 @@ private slots:
 
 private:
     Ui::CurrentDay *ui;
+    std::map<std::string, std::vector<NotesClass>> *data;
     std::vector<NotesClass> *notes;
-    QDate curDate;
+    std::string key;
 };
 
 #endif // CURRENTDAY_H

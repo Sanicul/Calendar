@@ -20,6 +20,9 @@ public:
 signals:
     void dataUp();
 
+protected:
+    void closeEvent(QCloseEvent *event);
+
 private slots:
     void clickSaveButton();
     void clickDelButton();
